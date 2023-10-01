@@ -1,0 +1,10 @@
+<div class="container">
+  <h1>Welcome to the Fusion Alchemy Avatar Generator</h1>
+  <p>Enter your name:</p>
+  <input type="text" [(ngModel)]="userName" placeholder="Your Name" />
+  <button (click)="generateAvatar()">Generate Avatar</button>
+  <div *ngIf="avatarImage">
+    <h2>Your Avatar</h2>
+    <img [src]="avatarImage" alt="Generated Avatar" />
+  </div>
+</div>
