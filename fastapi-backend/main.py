@@ -6,13 +6,23 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import torch
 from diffusers import StableDiffusionPipeline
-
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+# Define the directory to store generated images
+image_directory = "images"
+
+# Create a directory to store images if it doesn't exist
+os.makedirs(image_directory, exist_ok=True)
+
+app.mount("/images", StaticFiles(directory=image_directory), name="images")
+
+
 origins = [
     "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://localhost:4200",
 ]
 
 app.add_middleware(
@@ -39,15 +49,18 @@ def generate_image(pipe, name):
         """
         # Generate an image based on the provided prompt
         image = pipe(base_prompt).images[0]
-        # Save the image
-        image.save(f"images/{uuid4()}.png")
-        return {"message": "Avatar generated successfully"}
+        image_path = os.path.join(image_directory, str(uuid4()) + ".png")
+        image.save(image_path)
+
+        return {"message": "Avatar generated successfully",
+                "path": f"http://localhost:8000/{image_path}"}
     except Exception as e:
         return {"message": "An error occurred while generating the avatar", "error": str(e)}
 
 
-@app.get("/generate")
-async def root(name: str):
+@app.post("/generate")
+async def root(request_data: dict):
+    name = request_data.get("name")
     return generate_image(pipe, name)
 
 
