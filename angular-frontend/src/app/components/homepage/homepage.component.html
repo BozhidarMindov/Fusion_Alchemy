@@ -5,11 +5,19 @@
       <p class="card-text text-center">Enter your name:</p>
 
       <div class="input-group mb-3">
-          <input type="text" [(ngModel)]="userName" class="form-control text-center" placeholder="Your Name" />
+        <input type="text" [(ngModel)]="userName" class="form-control text-center" placeholder="Your Name" />
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary" (click)="generateAvatar()">Generate Avatar</button>
+      </div>
+
+      <!-- Loading Animation -->
+      <div *ngIf="loading" class="text-center mt-4">
+        <div class="spinner-border text-primary" role="status">
         </div>
-        <div class="text-center">
-          <button class="btn btn-primary" (click)="generateAvatar()">Generate Avatar</button>
-        </div>
+      </div>
+
+      <!-- Display Avatar Image -->
       <div *ngIf="avatarImage" class="mt-4">
         <h2 class="text-center">Your Avatar:</h2>
         <img [src]="avatarImage" alt="Generated Avatar" class="img-fluid mx-auto d-block" />
