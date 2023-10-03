@@ -38,8 +38,8 @@ export class HomepageComponent {
         this.loading = false;
       },
       (error) => {
-        console.error('Error generating avatar:', error);
         // Handle error (display an error message, if needed)
+        console.error('Error generating avatar:', error)
 
         // Set loading back to false in case of an error
         this.loading = false;
