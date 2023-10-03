@@ -28,6 +28,11 @@ export class HomepageComponent {
     // Store the last used username
     this.lastUsedUserName = this.userName;
 
+    // Set the current avatar image to '' to make the previous image disappear (in a case of one).
+    if (this.avatarImage){
+       this.avatarImage = ''
+    }
+
     // Send the user's name to the backend to generate the avatar
     this.http.post<any>('http://localhost:8000/generate', { "name": this.userName }).subscribe(
       (response) => {
@@ -51,8 +56,6 @@ export class HomepageComponent {
     if (this.lastUsedUserName) {
       // Use the last used username for regeneration
       this.userName = this.lastUsedUserName;
-      // Set teh current avatar image to '' to make the previous image disappear.
-      this.avatarImage = ''
       this.generateAvatar(); // Reuse the generateAvatar function
     } else {
       // Handle case where there's no previous username to regenerate
