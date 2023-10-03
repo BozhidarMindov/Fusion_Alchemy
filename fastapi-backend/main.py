@@ -43,9 +43,10 @@ pipe = pipe.to("cuda")
 def generate_image(pipe, name):
     try:
         base_prompt = f"""
-        In a future where avatars reflect personality,
-        generate an avatar for {name}, a human explorer.
-        Realistic, sense of awe, cool, futuristic, inspiring, beautiful, tech, cyber, clear face, no blur, cyberpunk
+        An avatar for {name}, a human explorer.
+        Realistic, sense of awe, cool, futuristic, inspiring, beautiful, tech, cyber, clear face, no blur, cyberpunk,
+        Resilient, Determined, Mysterious, Enigmatic, Courageous, Weathered, Battle-scarred, Tenacious, Wise,
+        Charismatic, Heroic, Thoughtful
         """
         # Generate an image based on the provided prompt
         image = pipe(base_prompt).images[0]
@@ -59,7 +60,7 @@ def generate_image(pipe, name):
 
 
 @app.post("/generate")
-async def root(request_data: dict):
+async def generate_avatar(request_data: dict):
     name = request_data.get("name")
     return generate_image(pipe, name)
 
