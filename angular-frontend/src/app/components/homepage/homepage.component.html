@@ -1,10 +1,23 @@
-<div class="container">
-  <h1>Welcome to the Fusion Alchemy Avatar Generator</h1>
-  <p>Enter your name:</p>
-  <input type="text" [(ngModel)]="userName" placeholder="Your Name" />
-  <button (click)="generateAvatar()">Generate Avatar</button>
-  <div *ngIf="avatarImage">
-    <h2>Your Avatar</h2>
-    <img [src]="avatarImage" alt="Generated Avatar" />
+<div class="container mt-5">
+  <div class="card mt-4">
+    <div class="card-body">
+      <h1 class="card-title text-center">Welcome to the Fusion Alchemy Avatar Generator</h1>
+      <p class="card-text text-center">Enter your name:</p>
+
+      <div class="input-group mb-3">
+          <input type="text" [(ngModel)]="userName" class="form-control text-center" placeholder="Your Name" />
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" (click)="generateAvatar()">Generate Avatar</button>
+        </div>
+      <div *ngIf="avatarImage" class="mt-4">
+        <h2 class="text-center">Your Avatar:</h2>
+        <img [src]="avatarImage" alt="Generated Avatar" class="img-fluid mx-auto d-block" />
+        <div class="d-flex justify-content-center mt-3">
+          <button class="btn btn-primary mx-2" (click)="regenerateAvatar()">Regenerate</button>
+          <button class="btn btn-success mx-2" (click)="downloadAvatar()">Download</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
