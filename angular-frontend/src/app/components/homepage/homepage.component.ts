@@ -62,8 +62,25 @@ export class HomepageComponent {
 
   downloadAvatar() {
     if (this.avatarImage) {
-      // Same downloadAvatar code as before
-      // ...
+      // Convert the avatar image URL to a blob
+      fetch(this.avatarImage)
+        .then(response => response.blob())
+        .then(blob => {
+          // Create an object URL from the blob
+          const blobURL = URL.createObjectURL(blob);
+
+          // Create an anchor element to trigger the download
+          const link = document.createElement('a');
+          link.href = blobURL;
+          link.download = 'avatar.png'; // Set the filename for download
+          link.click();
+
+          // Release the object URL to free resources
+          URL.revokeObjectURL(blobURL);
+        })
+        .catch(error => {
+          console.error('Error generating avatar:', error);
+        });
     } else {
       // Handle case where there's no avatar image to download
       console.error('Error generating avatar');
