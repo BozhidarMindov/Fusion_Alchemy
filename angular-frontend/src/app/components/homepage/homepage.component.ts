@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomepageComponent {
   userName: string = '';
   avatarImage: string | null = null;
-  loading: boolean = false; // Initialize the loading variable
+  loading: boolean = false;
 
   // Store the last used username for regeneration
   lastUsedUserName: string | null = null;
@@ -36,14 +36,12 @@ export class HomepageComponent {
     // Send the user's name to the backend to generate the avatar
     this.http.post<any>('http://localhost:8000/generate', { "name": this.userName }).subscribe(
       (response) => {
-        // Assuming the backend responds with the URL of the generated image
         this.avatarImage = response.path;
 
         // Set loading back to false when the operation is complete
         this.loading = false;
       },
       (error) => {
-        // Handle error (display an error message, if needed)
         console.error('Error generating avatar:', error)
 
         // Set loading back to false in case of an error
@@ -75,7 +73,7 @@ export class HomepageComponent {
           // Create an anchor element to trigger the download
           const link = document.createElement('a');
           link.href = blobURL;
-          link.download = 'avatar.png'; // Set the filename for download
+          link.download = 'avatar.png';
           link.click();
 
           // Release the object URL to free resources
