@@ -1,6 +1,8 @@
+import codecs
 import os
 from uuid import uuid4
 
+import yaml
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -33,10 +35,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+def parse_config(config_file):
+    with codecs.open(config_file, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
 # Load the Stable Diffusion model
-SDV5_MODEL_PATH = os.environ.get("SDV5_MODEL_PATH")
-pipe = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH,
-                                               torch_dtype=torch.float16)
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4",
+                                               revision="fp16",
+                                               torch_dtype=torch.float16,
+                                               use_auth_token=parse_config("config.yaml")["huggingface_key"])
+
 if torch.cuda.is_available():
     pipe = pipe.to("cuda")
 else:
