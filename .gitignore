@@ -45,3 +45,5 @@ testem.log
 Thumbs.db
 
 venv
+
+/fastapi-backend/config.yaml
