@@ -37,7 +37,10 @@ app.add_middleware(
 SDV5_MODEL_PATH = os.environ.get("SDV5_MODEL_PATH")
 pipe = StableDiffusionPipeline.from_pretrained(SDV5_MODEL_PATH,
                                                torch_dtype=torch.float16)
-pipe = pipe.to("cuda")
+if torch.cuda.is_available():
+    pipe = pipe.to("cuda")
+else:
+    pipe = pipe.to("cpu")
 
 
 def generate_image(pipe, name):
